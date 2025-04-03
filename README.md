@@ -30,3 +30,4 @@ This project was built as a personal learning challenge to explore modern 3D web
 ```bash
 pnpm install
 pnpm dev
+```
