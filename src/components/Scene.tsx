@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Sparkles } from '@react-three/drei';
 import { XR, createXRStore } from '@react-three/xr';
 import { useRef } from 'react';
 import { Mesh } from 'three';
@@ -37,7 +37,8 @@ const RotatingCube = () => {
   return (
     <mesh position={[0, 2, 0]} pointerEventsType={{ deny: 'grab' }} ref={cubeRef}>
       <torusKnotGeometry args={[3, 1, 150, 7, 2, 9]} />
-      <meshStandardMaterial color="turquoise" />
+      <meshLambertMaterial color="#468585" emissive={'#468585'} />
+      <Sparkles count={100} scale={1} size={10} speed={0.002} noise={0.2} color={'orange'} />
     </mesh>
   );
 };
@@ -50,14 +51,14 @@ export default function Scene() {
           <RotatingCube />
 
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4, 0]}>
-            <planeGeometry args={[10, 10]} />
-            <meshStandardMaterial color="#e0e0e0" />
+            <boxGeometry args={[10, 10]} />
+            <meshStandardMaterial color="turquoise" emissive={'#468585'}  />
           </mesh>
         </XR>
 
         <ambientLight intensity={0.5} />
-        <directionalLight position={[3, 5, 2]} intensity={1} />
-        <OrbitControls />
+        <directionalLight position={[3, 5, 2]} intensity={6} color={"0x9CDBA6"} />
+        <OrbitControls enableDamping enableZoom enablePan dampingFactor={0.05} />
       </Canvas>
       <div className="flex flex-row space-x-4 items-center justify-center">
         <XRButton text="Enter VR" onClick={() => store.enterVR()} />
