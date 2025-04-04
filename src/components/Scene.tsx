@@ -1,10 +1,10 @@
 'use client';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sparkles } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { XR, createXRStore } from '@react-three/xr';
-import { useRef } from 'react';
-import { Mesh } from 'three';
+import Stick from './Stick';
+import Floor from './Floor';
 
 const store = createXRStore();
 
@@ -24,40 +24,25 @@ const XRButton = ({ text, onClick }: XRButtonProps) => {
   );
 };
 
-const RotatingCube = () => {
-  const cubeRef = useRef<Mesh>(null!);
-
-  useFrame(() => {
-    if (cubeRef.current) {
-      cubeRef.current.rotation.y += 0.01;
-      cubeRef.current.rotation.x += 0.005;
-    }
-  });
-
-  return (
-    <mesh position={[0, 2, 0]} pointerEventsType={{ deny: 'grab' }} ref={cubeRef}>
-      <torusKnotGeometry args={[3, 1, 150, 7, 2, 9]} />
-      <meshLambertMaterial color="#468585" emissive={'#468585'} />
-      <Sparkles count={100} scale={1} size={10} speed={0.002} noise={0.2} color={'orange'} />
-    </mesh>
-  );
-};
-
 export default function Scene() {
   return (
     <div className="w-full h-9/10 flex flex-col items-center justify-center">
-      <Canvas camera={{ position: [0, 5, 15], fov: 60 }}>
+      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
         <XR store={store}>
-          <RotatingCube />
-
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4, 0]}>
-            <boxGeometry args={[10, 10]} />
-            <meshStandardMaterial color="turquoise" emissive={'#468585'}  />
-          </mesh>
+          <Stick position={[-0.7, 0.5, 0]} />
+          <Stick position={[-0.7, 0.5, -0.25]} />
+          <Stick position={[-0.6, 0.5, -0.5]} />
+          <Stick position={[-0.35, 0.5, -0.75]} />
+          <Stick position={[0, 0.5, -1]} />
+          <Stick position={[0.35, 0.5, -0.75]} />
+          <Stick position={[0.6, 0.5, -0.5]} />
+          <Stick position={[0.7, 0.5, -0.25]} />
+          <Stick position={[0.7, 0.5, 0]} />
+          <Floor />
         </XR>
 
         <ambientLight intensity={0.5} />
-        <directionalLight position={[3, 5, 2]} intensity={6} color={"0x9CDBA6"} />
+        <directionalLight position={[3, 5, 2]} intensity={6} color={'#9CDBA6'} />
         <OrbitControls enableDamping enableZoom enablePan dampingFactor={0.05} />
       </Canvas>
       <div className="flex flex-row space-x-4 items-center justify-center">
