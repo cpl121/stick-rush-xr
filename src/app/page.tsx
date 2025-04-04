@@ -4,11 +4,11 @@ import Scene from '@/components/Scene';
 export default function Home() {
   return (
     <div className="flex flex-col h-screen">
-     <header className="py-4 bg-slate-700 text-white flex items-center justify-center">
-          <h1> STICK RUSH XR </h1>
+      <header className="py-4 bg-slate-700 text-white flex items-center justify-center">
+        <h1> STICK RUSH XR </h1>
       </header>
       <main className="flex-1 overflow-hidden">
-          <Scene />
+        <Scene />
       </main>
       <footer className="w-full flex items-center justify-center border-t border-white py-4 text-gray-400">
         <a
