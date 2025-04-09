@@ -5,6 +5,7 @@ import { OrbitControls } from '@react-three/drei';
 import { XR, createXRStore } from '@react-three/xr';
 import Stick from './Stick';
 import Floor from './Floor';
+import { DoubleSide } from 'three';
 
 const store = createXRStore();
 
@@ -29,15 +30,19 @@ export default function Scene() {
     <div className="w-full h-9/10 flex flex-col items-center justify-center">
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
         <XR store={store}>
-          <Stick position={[-0.7, 0.5, 0]} />
-          <Stick position={[-0.7, 0.5, -0.25]} />
-          <Stick position={[-0.6, 0.5, -0.5]} />
-          <Stick position={[-0.35, 0.5, -0.75]} />
-          <Stick position={[0, 0.5, -1]} />
-          <Stick position={[0.35, 0.5, -0.75]} />
-          <Stick position={[0.6, 0.5, -0.5]} />
-          <Stick position={[0.7, 0.5, -0.25]} />
-          <Stick position={[0.7, 0.5, 0]} />
+          <mesh rotation={[-Math.PI / 2, 0, -0.1]} position={[0, 1.34, 0.1]} scale={[1, 1.5, 0]}>
+            <ringGeometry args={[0.5, 0.85, 8, 7, 0, 3.25]} />
+            <meshStandardMaterial color="#468585" side={DoubleSide} />
+          </mesh>
+          <Stick position={[-0.7, 1, 0]} />
+          <Stick position={[-0.7, 1, -0.25]} />
+          <Stick position={[-0.6, 1, -0.5]} />
+          <Stick position={[-0.35, 1, -0.75]} />
+          <Stick position={[0, 1, -0.85]} />
+          <Stick position={[0.35, 1, -0.75]} />
+          <Stick position={[0.6, 1, -0.5]} />
+          <Stick position={[0.7, 1, -0.25]} />
+          <Stick position={[0.7, 1, 0]} />
           <Floor />
         </XR>
 
