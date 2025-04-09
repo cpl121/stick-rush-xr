@@ -1,39 +1,40 @@
-import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
-import { Group } from 'three';
+import { useBox } from '@react-three/cannon';
+import { useEffect } from 'react';
 
 type StickProps = {
   position?: [number, number, number];
-  color?: string;
+  delay?: number;
 };
 
-const Stick = ({ position = [0, 0, 0], color = '#468585' }: StickProps) => {
-  const ref = useRef<Group>(null!);
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y += 0.01;
-    }
-  });
+const Stick = ({ position = [0, 0, 0], delay = 0 }: StickProps) => {
+  const [ref, api] = useBox(() => ({
+    mass: 0,
+    position,
+    type: 'Dynamic',
+    sleep: true,
+  }));
 
-  const handleGrabStart = (e: any) => {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      api.mass.set(1);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [delay]);
+
+  /* const handleGrabStart = (e: any) => {
     const controller = e.target;
     ref.current.parent = controller;
   };
 
   const handleGrabEnd = () => {
     ref.current.parent = null;
-  };
+  }; */
 
   return (
-    <group
-      position={position}
-      ref={ref}
-      scale={[0.02, 0.02, 0.02]}
-      onSelectStart={handleGrabStart}
-      onSelectEnd={handleGrabEnd}
-    >
-      <mesh position={[0, 5, 0]}>
-        <capsuleGeometry args={[2, 20, 10, 20]} />
+    <group ref={ref} position={position}>
+      <mesh position={[0, 0, 0]}>
+        <capsuleGeometry args={[0.1, 0.5, 5, 10]} />
         <meshLambertMaterial color="#468585" emissive={'#468585'} />
       </mesh>
     </group>
