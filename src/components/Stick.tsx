@@ -8,10 +8,12 @@ type StickProps = {
 
 const Stick = ({ position = [0, 0, 0], delay = 0 }: StickProps) => {
   const [ref, api] = useBox(() => ({
+    angularDamping: 0.9,
     mass: 0,
     position,
     type: 'Dynamic',
     sleep: true,
+    angularFactor: [0, 0, 0],
   }));
 
   useEffect(() => {
@@ -21,15 +23,6 @@ const Stick = ({ position = [0, 0, 0], delay = 0 }: StickProps) => {
 
     return () => clearTimeout(timeout);
   }, [delay]);
-
-  /* const handleGrabStart = (e: any) => {
-    const controller = e.target;
-    ref.current.parent = controller;
-  };
-
-  const handleGrabEnd = () => {
-    ref.current.parent = null;
-  }; */
 
   return (
     <group ref={ref} position={position}>
